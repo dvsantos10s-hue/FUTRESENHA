@@ -168,12 +168,22 @@
     const botao = document.getElementById("enviar");
     const mensagem = document.getElementById("mensagem");
 
-    const jaVotou = localStorage.getItem("fut_resenha_ja_votou") === "sim";
+    let jaVotou = false;
 
-    if (jaVotou) {
-      mensagem.textContent = "⚠️ Você já votou nesta votação.";
-      mensagem.style.color = "#ff4568";
-      botao.disabled = true;
+    function atualizarTela() {
+      contador.textContent = selecionados.length;
+
+      botao.disabled = jaVotou || selecionados.length !== 3;
+
+      document.querySelectorAll(".candidate").forEach(btn => {
+        if (jaVotou) {
+          btn.disabled = true;
+        } else if (!btn.classList.contains("selected")) {
+          btn.disabled = selecionados.length >= 3;
+        } else {
+          btn.disabled = false;
+        }
+      });
     }
 
     candidatos.forEach(nome => {
@@ -182,15 +192,9 @@
       botaoCandidato.className = "candidate";
       botaoCandidato.textContent = nome;
 
-      if (jaVotou) {
-        botaoCandidato.disabled = true;
-      }
-
       botaoCandidato.addEventListener("click", () => {
 
-        if (localStorage.getItem("fut_resenha_ja_votou") === "sim") {
-          return;
-        }
+        if (jaVotou) return;
 
         const indice = selecionados.indexOf(nome);
 
@@ -199,9 +203,7 @@
           botaoCandidato.classList.remove("selected");
         } else {
 
-          if (selecionados.length >= 3) {
-            return;
-          }
+          if (selecionados.length >= 3) return;
 
           selecionados.push(nome);
           botaoCandidato.classList.add("selected");
@@ -213,29 +215,9 @@
       container.appendChild(botaoCandidato);
     });
 
-    function atualizarTela() {
-      contador.textContent = selecionados.length;
-
-      botao.disabled = selecionados.length !== 3;
-
-      document.querySelectorAll(".candidate").forEach(btn => {
-        if (!btn.classList.contains("selected")) {
-          btn.disabled = selecionados.length >= 3;
-        } else {
-          btn.disabled = false;
-        }
-      });
-    }
-
     botao.addEventListener("click", async () => {
 
-      if (selecionados.length !== 3) return;
-
-      if (localStorage.getItem("fut_resenha_ja_votou") === "sim") {
-        mensagem.textContent = "⚠️ Você já votou nesta votação.";
-        mensagem.style.color = "#ff4568";
-        return;
-      }
+      if (jaVotou || selecionados.length !== 3) return;
 
       botao.disabled = true;
       botao.textContent = "ENVIANDO...";
@@ -244,16 +226,16 @@
 
       if (sucesso) {
 
+        jaVotou = true;
+
         localStorage.setItem("fut_resenha_ja_votou", "sim");
 
         mensagem.textContent = "✅ Votos registrados com sucesso!";
         mensagem.style.color = "#22c55e";
 
-        document.querySelectorAll(".candidate").forEach(btn => {
-          btn.disabled = true;
-        });
-
         botao.textContent = "VOTOS ENVIADOS";
+
+        atualizarTela();
 
       } else {
 
@@ -264,5 +246,26 @@
         botao.textContent = "ENVIAR VOTOS";
       }
     });
+
+    async function iniciarVotacao() {
+
+      mensagem.textContent = "Verificando votação...";
+
+      jaVotou = await verificarSeJaVotou();
+
+      if (jaVotou) {
+
+        mensagem.textContent = "⚠️ Você já votou nesta votação.";
+        mensagem.style.color = "#ff4568";
+
+      } else {
+
+        mensagem.textContent = "";
+      }
+
+      atualizarTela();
+    }
+
+    iniciarVotacao();
   </script>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="script.js"></script></body>
 </html>
