@@ -17,8 +17,9 @@ async function registrarVotos(nomes) {
     .insert(votos);
 
   if (error) {
-    console.error("Erro ao registrar votos:", error);
-    return false;
+  console.error("Erro ao registrar votos:", error);
+  alert("Erro do Supabase: " + error.message);
+  return false;
   }
 
   return true;
