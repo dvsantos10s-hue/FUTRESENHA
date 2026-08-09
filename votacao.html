@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votação — FUT RESENHA</title>  <link rel="stylesheet" href="style.css">  <style>
+    .vote-page {
+      min-height: 100vh;
+      padding: 25px 18px 40px;
+    }
+
+    .vote-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .vote-header h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .vote-header p {
+      margin: 0;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .counter {
+      margin: 18px auto;
+      width: fit-content;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: rgba(255, 49, 88, 0.12);
+      color: #ff4568;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .candidates {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .candidate {
+      min-height: 55px;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #161616;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .candidate.selected {
+      border-color: #ff3158;
+      background: rgba(255, 49, 88, 0.18);
+      transform: scale(0.97);
+    }
+
+    .candidate:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .send-votes {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      border: 0;
+      border-radius: 15px;
+      background: #ff3158;
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .send-votes:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .back {
+      display: block;
+      margin-top: 18px;
+      text-align: center;
+      color: #aaa;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 360px) {
+      .candidates {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style></head><body>  <div class="fut-page vote-page"><header class="vote-header">
+  <h1>🏆 VOTAÇÃO</h1>
+  <p>Escolha os 3 melhores membros da FUT RESENHA</p>
+
+  <div class="counter">
+    <span id="contador">0</span>/3 selecionados
+  </div>
+</header>
+
+<main>
+  <div class="candidates" id="candidatos"></div>
+
+  <button class="send-votes" id="enviar" disabled>
+    ENVIAR VOTOS
+  </button>
+
+  <div class="message" id="mensagem"></div>
+
+  <a class="back" href="index.html">
+    ← Voltar para a página inicial
+  </a>
+</main>
+
+  </div>  <script>
+    const candidatos = [
+      "Davixz",
+      "Cardoso",
+      "Danx",
+      "Eduardo",
+      "Ferreira",
+      "Guilherme",
+      "Thiago",
+      "Kauê madeira",
+      "Marcos Paulo",
+      "Matheus",
+      "Ana liny",
+      "Antonella",
+      "Cleiton",
+      "Eduardo Rodrigues",
+      "Juju",
+      "Lf",
+      "Xavier",
+      "Paulo",
+      "Guilherme baiano",
+      "Alanis",
+      "Bm",
+      "Emanuel",
+      "Gabriel",
+      "Gu",
+      "Gusta",
+      "Mari",
+      "Maximus",
+      "Melvin Mourinho",
+      "Vitória"
+    ];
+
+    const selecionados = [];
+
+    const container = document.getElementById("candidatos");
+    const contador = document.getElementById("contador");
+    const botao = document.getElementById("enviar");
+    const mensagem = document.getElementById("mensagem");
+
+    candidatos.forEach(nome => {
+      const botaoCandidato = document.createElement("button");
+
+      botaoCandidato.className = "candidate";
+      botaoCandidato.textContent = nome;
+
+      botaoCandidato.addEventListener("click", () => {
+
+        const indice = selecionados.indexOf(nome);
+
+        if (indice !== -1) {
+          selecionados.splice(indice, 1);
+          botaoCandidato.classList.remove("selected");
+        } else {
+
+          if (selecionados.length >= 3) {
+            return;
+          }
+
+          selecionados.push(nome);
+          botaoCandidato.classList.add("selected");
+        }
+
+        atualizarTela();
+      });
+
+      container.appendChild(botaoCandidato);
+    });
+
+    function atualizarTela() {
+      contador.textContent = selecionados.length;
+
+      botao.disabled = selecionados.length !== 3;
+
+      document.querySelectorAll(".candidate").forEach(btn => {
+        if (!btn.classList.contains("selected")) {
+          btn.disabled = selecionados.length >= 3;
+        } else {
+          btn.disabled = false;
+        }
+      });
+    }
+
+    botao.addEventListener("click", () => {
+      if (selecionados.length !== 3) return;
+
+      mensagem.textContent =
+        "Os 3 nomes foram selecionados. O envio ao banco será configurado no próximo passo.";
+      mensagem.style.color = "#ff4568";
+    });
+  </script></body>
+</html>
