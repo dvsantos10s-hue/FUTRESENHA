@@ -210,12 +210,39 @@
       });
     }
 
-    botao.addEventListener("click", () => {
-      if (selecionados.length !== 3) return;
+    botao.addEventListener("click", async () => {
+  if (selecionados.length !== 3) return;
+
+  botao.disabled = true;
+  botao.textContent = "ENVIANDO...";
+
+  const sucesso = await registrarVotos(selecionados);
+
+  if (sucesso) {
+    mensagem.textContent = "✅ Votos registrados com sucesso!";
+    mensagem.style.color = "#22c55e";
+
+    document.querySelectorAll(".candidate").forEach(btn => {
+      btn.disabled = true;
+    });
+
+    botao.textContent = "VOTOS ENVIADOS";
+  } else {
+    mensagem.textContent = "❌ Não foi possível registrar os votos.";
+    mensagem.style.color = "#ef4444";
+
+    botao.disabled = false;
+    botao.textContent = "ENVIAR VOTOS";
+  }
+});
 
       mensagem.textContent =
         "Os 3 nomes foram selecionados. O envio ao banco será configurado no próximo passo.";
       mensagem.style.color = "#ff4568";
     });
-  </script></body>
+  </script>
+    <script 
+      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+  </body>
 </html>
