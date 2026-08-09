@@ -28,6 +28,7 @@ const { data, error } = await db
 
 if (error) {
 console.error("Erro ao verificar votação:", error);
+alert("Erro do Supabase: " + error.message);
 return false;
 }
 
