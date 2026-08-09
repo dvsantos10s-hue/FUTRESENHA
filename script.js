@@ -1,6 +1,5 @@
-const SUPABASE_URL = "https://qebsemnlhikhmucyjdut.supabase.co";
-const SUPABASE_KEY = "SUA_CHAVE_PUBLICAVEL_AQUI";
-
+const const SUPABASE_URL = "https://qebsemnlhikhmucyjdut.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_1dB6oHhncjKZVO4utmaU3w_d_pxTQiz";
 const db = window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
@@ -28,6 +27,7 @@ const { data, error } = await db
 
 if (error) {
 console.error("Erro ao verificar votação:", error);
+alert("Erro do Supabase: " + error.message);
 return false;
 }
 
