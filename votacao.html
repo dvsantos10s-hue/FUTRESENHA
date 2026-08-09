@@ -2,7 +2,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Votação — FUT RESENHA</title>  <link rel="stylesheet" href="style.css">  <style>
+  <title>Votação — FUT RESENHA</title>
+  <link rel="stylesheet" href="style.css">  <style>
     .vote-page {
       min-height: 100vh;
       padding: 25px 18px 40px;
@@ -174,14 +175,12 @@
       botaoCandidato.textContent = nome;
 
       botaoCandidato.addEventListener("click", () => {
-
         const indice = selecionados.indexOf(nome);
 
         if (indice !== -1) {
           selecionados.splice(indice, 1);
           botaoCandidato.classList.remove("selected");
         } else {
-
           if (selecionados.length >= 3) {
             return;
           }
@@ -211,38 +210,29 @@
     }
 
     botao.addEventListener("click", async () => {
-  if (selecionados.length !== 3) return;
+      if (selecionados.length !== 3) return;
 
-  botao.disabled = true;
-  botao.textContent = "ENVIANDO...";
+      botao.disabled = true;
+      botao.textContent = "ENVIANDO...";
 
-  const sucesso = await registrarVotos(selecionados);
+      const sucesso = await registrarVotos(selecionados);
 
-  if (sucesso) {
-    mensagem.textContent = "✅ Votos registrados com sucesso!";
-    mensagem.style.color = "#22c55e";
+      if (sucesso) {
+        mensagem.textContent = "✅ Votos registrados com sucesso!";
+        mensagem.style.color = "#22c55e";
 
-    document.querySelectorAll(".candidate").forEach(btn => {
-      btn.disabled = true;
+        document.querySelectorAll(".candidate").forEach(btn => {
+          btn.disabled = true;
+        });
+
+        botao.textContent = "VOTOS ENVIADOS";
+      } else {
+        mensagem.textContent = "❌ Não foi possível registrar os votos.";
+        mensagem.style.color = "#ef4444";
+
+        botao.disabled = false;
+        botao.textContent = "ENVIAR VOTOS";
+      }
     });
-
-    botao.textContent = "VOTOS ENVIADOS";
-  } else {
-    mensagem.textContent = "❌ Não foi possível registrar os votos.";
-    mensagem.style.color = "#ef4444";
-
-    botao.disabled = false;
-    botao.textContent = "ENVIAR VOTOS";
-  }
-});
-
-      mensagem.textContent =
-        "Os 3 nomes foram selecionados. O envio ao banco será configurado no próximo passo.";
-      mensagem.style.color = "#ff4568";
-    });
-  </script>
-    <script 
-      src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
-  </body>
+  </script>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script src="script.js"></script></body>
 </html>
