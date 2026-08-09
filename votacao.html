@@ -168,19 +168,37 @@
     const botao = document.getElementById("enviar");
     const mensagem = document.getElementById("mensagem");
 
+    const jaVotou = localStorage.getItem("fut_resenha_ja_votou") === "sim";
+
+    if (jaVotou) {
+      mensagem.textContent = "⚠️ Você já votou nesta votação.";
+      mensagem.style.color = "#ff4568";
+      botao.disabled = true;
+    }
+
     candidatos.forEach(nome => {
       const botaoCandidato = document.createElement("button");
 
       botaoCandidato.className = "candidate";
       botaoCandidato.textContent = nome;
 
+      if (jaVotou) {
+        botaoCandidato.disabled = true;
+      }
+
       botaoCandidato.addEventListener("click", () => {
+
+        if (localStorage.getItem("fut_resenha_ja_votou") === "sim") {
+          return;
+        }
+
         const indice = selecionados.indexOf(nome);
 
         if (indice !== -1) {
           selecionados.splice(indice, 1);
           botaoCandidato.classList.remove("selected");
         } else {
+
           if (selecionados.length >= 3) {
             return;
           }
@@ -210,7 +228,14 @@
     }
 
     botao.addEventListener("click", async () => {
+
       if (selecionados.length !== 3) return;
+
+      if (localStorage.getItem("fut_resenha_ja_votou") === "sim") {
+        mensagem.textContent = "⚠️ Você já votou nesta votação.";
+        mensagem.style.color = "#ff4568";
+        return;
+      }
 
       botao.disabled = true;
       botao.textContent = "ENVIANDO...";
@@ -218,6 +243,9 @@
       const sucesso = await registrarVotos(selecionados);
 
       if (sucesso) {
+
+        localStorage.setItem("fut_resenha_ja_votou", "sim");
+
         mensagem.textContent = "✅ Votos registrados com sucesso!";
         mensagem.style.color = "#22c55e";
 
@@ -226,7 +254,9 @@
         });
 
         botao.textContent = "VOTOS ENVIADOS";
+
       } else {
+
         mensagem.textContent = "❌ Não foi possível registrar os votos.";
         mensagem.style.color = "#ef4444";
 
