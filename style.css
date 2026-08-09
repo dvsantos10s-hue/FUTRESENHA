@@ -296,3 +296,69 @@ font-size: 28px;
 font-size: 17px;
 }
 }
+
+/* ================================
+ADMINISTRAÇÃO
+================================ */
+
+.admins {
+width: 100%;
+max-width: 600px;
+margin: 25px auto;
+padding: 0 18px;
+box-sizing: border-box;
+}
+
+.admin-card {
+display: flex;
+align-items: center;
+gap: 15px;
+padding: 17px;
+margin-bottom: 12px;
+border-radius: 18px;
+
+background: rgba(255, 255, 255, 0.08);
+border: 1px solid rgba(255, 255, 255, 0.12);
+
+color: white;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+
+transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.admin-card:hover {
+transform: translateY(-2px);
+background: rgba(255, 255, 255, 0.13);
+}
+
+.admin-icon {
+width: 42px;
+height: 42px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+background: rgba(255, 215, 0, 0.12);
+
+font-size: 22px;
+}
+
+.admin-card strong {
+font-size: 18px;
+}
+
+@media (max-width: 480px) {
+.admins {
+padding: 0 14px;
+}
+
+.admin-card {
+padding: 14px;
+}
+
+.admin-card strong {
+font-size: 17px;
+}
+}
