@@ -362,3 +362,99 @@ padding: 14px;
 font-size: 17px;
 }
 }
+
+/* ================================
+HISTÓRIA DO GRUPO
+================================ */
+
+.history-content {
+width: 100%;
+max-width: 600px;
+margin: 25px auto;
+padding: 0 18px;
+box-sizing: border-box;
+}
+
+.history-card {
+display: flex;
+align-items: flex-start;
+gap: 15px;
+
+padding: 18px;
+margin-bottom: 14px;
+
+border-radius: 18px;
+
+background: rgba(255, 255, 255, 0.08);
+border: 1px solid rgba(255, 255, 255, 0.12);
+
+color: white;
+
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.history-card.highlight {
+align-items: center;
+background: rgba(255, 215, 0, 0.10);
+border: 1px solid rgba(255, 215, 0, 0.22);
+}
+
+.history-card.final {
+margin-bottom: 5px;
+}
+
+.history-icon {
+min-width: 42px;
+height: 42px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+
+background: rgba(255, 255, 255, 0.08);
+
+font-size: 22px;
+}
+
+.history-card h2 {
+margin: 0 0 7px;
+font-size: 19px;
+}
+
+.history-card p {
+margin: 0;
+line-height: 1.5;
+font-size: 15px;
+opacity: 0.85;
+}
+
+.history-card small {
+font-size: 11px;
+letter-spacing: 1px;
+opacity: 0.65;
+}
+
+.history-card.highlight h2 {
+margin: 3px 0 0;
+font-size: 20px;
+}
+
+@media (max-width: 480px) {
+.history-content {
+padding: 0 14px;
+}
+
+.history-card {
+padding: 15px;
+}
+
+.history-card h2 {
+font-size: 18px;
+}
+
+.history-card p {
+font-size: 14px;
+}
+}
